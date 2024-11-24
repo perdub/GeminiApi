@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FF0F0A44-BE8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeminiApi", "src\GeminiApi\GeminiApi.csproj", "{830FB75F-B2FE-4853-AB33-13EEF3530769}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "console", "console\console.csproj", "{FC274B8A-B914-4327-A157-A6041FDCAEF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{830FB75F-B2FE-4853-AB33-13EEF3530769}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{830FB75F-B2FE-4853-AB33-13EEF3530769}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{830FB75F-B2FE-4853-AB33-13EEF3530769}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC274B8A-B914-4327-A157-A6041FDCAEF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC274B8A-B914-4327-A157-A6041FDCAEF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC274B8A-B914-4327-A157-A6041FDCAEF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC274B8A-B914-4327-A157-A6041FDCAEF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{830FB75F-B2FE-4853-AB33-13EEF3530769} = {FF0F0A44-BE89-4819-9650-0634A63234EB}

@@ -23,7 +23,7 @@ namespace GeminiApi.Types
         public Dictionary<string, Schema>? Properties{get;set;} = null;
 
         [JsonPropertyName("required")]
-        public string? Required{get;set;} = null;
+        public string[]? Required{get;set;} = null;
 
         [JsonPropertyName("items")]
         public Schema? Items{get;set;} = null;
