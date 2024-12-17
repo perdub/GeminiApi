@@ -21,7 +21,7 @@ jobs:
 
         - name: Create
           run: |
-            cd src\GeminiApi
+            cd src/GeminiApi
             dotnet pack -c Release /p:Version=$ver
             cd bin/Release
             for file in *.nupkg; do
