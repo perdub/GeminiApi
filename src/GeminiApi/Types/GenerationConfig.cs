@@ -11,7 +11,7 @@ namespace GeminiApi.Types
         public List<string>? StopSequences { get; set; } = null;
 
         [JsonPropertyName("responseMimeType")]
-        public string? ResponseMimeType { get; set; } = null;
+        public string? ResponseMimeType { get; set; } = "text/plain";
 
         [JsonPropertyName("responseSchema")]
         public Schema? ResponseSchema { get; set; } = null; // Assuming you have a Schema class defined

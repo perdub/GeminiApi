@@ -2,82 +2,60 @@ using System.Text.Json.Serialization;
 
 namespace GeminiApi.Types
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))] 
     public enum HarmBlockThreshold
     {
-        [JsonPropertyName("HARM_BLOCK_THRESHOLD_UNSPECIFIED")]
-        HarmBlockThresholdUnspecified,
+        HARM_BLOCK_THRESHOLD_UNSPECIFIED,
 
-        [JsonPropertyName("BLOCK_LOW_AND_ABOVE")]
-        BlockLowAndAbove,
+        BLOCK_LOW_AND_ABOVE,
 
-        [JsonPropertyName("BLOCK_MEDIUM_AND_ABOVE")]
-        BlockMediumAndAbove,
+        BLOCK_MEDIUM_AND_ABOVE,
 
-        [JsonPropertyName("BLOCK_ONLY_HIGH")]
-        BlockOnlyHigh,
+        BLOCK_ONLY_HIGH,
 
-        [JsonPropertyName("BLOCK_NONE")]
-        BlockNone,
+        BLOCK_NONE,
 
-        [JsonPropertyName("OFF")]
-        Off
+        OFF
     }
-
+[JsonConverter(typeof(JsonStringEnumConverter))] 
     public enum HarmCategory
     {
-        [JsonPropertyName("HARM_CATEGORY_UNSPECIFIED")]
-        HarmCategoryUnspecified,
+        HARM_CATEGORY_UNSPECIFIED,
 
-        [JsonPropertyName("HARM_CATEGORY_DEROGATORY")]
-        Derogatory,
+        HARM_CATEGORY_DEROGATORY,
 
-        [JsonPropertyName("HARM_CATEGORY_TOXICITY")]
-        Toxicity,
+        HARM_CATEGORY_TOXICITY,
 
-        [JsonPropertyName("HARM_CATEGORY_VIOLENCE")]
-        Violence,
+        HARM_CATEGORY_VIOLENCE,
 
-        [JsonPropertyName("HARM_CATEGORY_SEXUAL")]
-        Sexual,
+        HARM_CATEGORY_SEXUAL,
 
-        [JsonPropertyName("HARM_CATEGORY_MEDICAL")]
-        Medical,
+        HARM_CATEGORY_MEDICAL,
 
-        [JsonPropertyName("HARM_CATEGORY_DANGEROUS")]
-        Dangerous,
+        HARM_CATEGORY_DANGEROUS,
 
-        [JsonPropertyName("HARM_CATEGORY_HARASSMENT")]
-        Harassment,
+        HARM_CATEGORY_HARASSMENT,
 
-        [JsonPropertyName("HARM_CATEGORY_HATE_SPEECH")]
-        HateSpeech,
+        HARM_CATEGORY_HATE_SPEECH,
 
-        [JsonPropertyName("HARM_CATEGORY_SEXUALLY_EXPLICIT")]
-        SexuallyExplicit,
+        HARM_CATEGORY_SEXUALLY_EXPLICIT,
 
-        [JsonPropertyName("HARM_CATEGORY_DANGEROUS_CONTENT")]
-        DangerousContent,
+        HARM_CATEGORY_DANGEROUS_CONTENT,
 
-        [JsonPropertyName("HARM_CATEGORY_CIVIC_INTEGRITY")]
-        CivicIntegrity
+        HARM_CATEGORY_CIVIC_INTEGRITY
     }
-
+[JsonConverter(typeof(JsonStringEnumConverter))] 
     public enum HarmProbability
     {
-        [JsonPropertyName("HARM_PROBABILITY_UNSPECIFIED")]
-        HarmProbabilityUnspecified,
+        HARM_PROBABILITY_UNSPECIFIED,
 
-        [JsonPropertyName("NEGLIGIBLE")]
-        Negligible,
+        NEGLIGIBLE,
 
-        [JsonPropertyName("LOW")]
-        Low,
+        LOW,
 
-        [JsonPropertyName("MEDIUM")]
-        Medium,
+        MEDIUM,
 
-        [JsonPropertyName("HIGH")]
-        High
+        HIGH
     }
 
     public class SafetyRating

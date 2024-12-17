@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "6QoYCat83J8=",
+  "dgSpecHash": "RVEliFJ2GKI=",
   "success": true,
   "projectFilePath": "D:\\Projects\\GeminiApi\\src\\GeminiApi\\GeminiApi.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "D:\\NugetCache\\microsoft.dotnet.ilcompiler\\9.0.0\\microsoft.dotnet.ilcompiler.9.0.0.nupkg.sha512",
+    "D:\\NugetCache\\microsoft.net.illink.tasks\\9.0.0\\microsoft.net.illink.tasks.9.0.0.nupkg.sha512",
+    "D:\\NugetCache\\runtime.win-x64.microsoft.dotnet.ilcompiler\\9.0.0\\runtime.win-x64.microsoft.dotnet.ilcompiler.9.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

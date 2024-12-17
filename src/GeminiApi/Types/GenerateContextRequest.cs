@@ -15,7 +15,7 @@ namespace GeminiApi.Types
 
 
         [JsonPropertyName("safetySettings")]
-        public SafetySetting? SafetySettings { get; set; } = null;
+        public SafetySetting[]? SafetySettings { get; set; } = null;
 
 
         [JsonPropertyName("systemInstruction")]

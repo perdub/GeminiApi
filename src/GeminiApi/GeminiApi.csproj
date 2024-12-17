@@ -1,9 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <ItemGroup>
+    
+  </ItemGroup>
+
   <PropertyGroup>
+    <PackageId>perdub.GeminiApi</PackageId>
+    <Version>0.0.1</Version>
+    <Authors>perdub</Authors>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PublishAot>true</PublishAot>
+    <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
+
+  <ItemGroup>
+      <None Include="../README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 
 </Project>

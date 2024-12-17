@@ -1,3 +1,4 @@
+using System.Text;
 using GeminiApi.Types;
 
 namespace GeminiApi
@@ -5,7 +6,7 @@ namespace GeminiApi
     public static class HttpHelper
     {
         public static HttpContent PackToHttpContent(this GenerateContentRequest generateContentRequest){
-            HttpContent httpContent = new StringContent(generateContentRequest.Serialize());
+            HttpContent httpContent = new StringContent(generateContentRequest.Serialize(), Encoding.UTF8);
             httpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
             return httpContent;
         }
