@@ -21,7 +21,7 @@ jobs:
 
         - name: Create
           run: |
-            cd Tebot
+            cd src\GeminiApi
             dotnet pack -c Release /p:Version=$ver
             cd bin/Release
             for file in *.nupkg; do
@@ -31,4 +31,3 @@ jobs:
             done
             dotnet nuget push test.nupkg -k ${{secrets.NUGET_API}} --source https://api.nuget.org/v3/index.json
 
-            
