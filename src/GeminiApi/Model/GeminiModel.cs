@@ -5,9 +5,10 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using DdgAiProxy;
-using GeminiApi;
 using GeminiApi.Types;
 using Microsoft.Extensions.Logging;
+
+namespace GeminiApi;
 
 public class GeminiModel : DialogManager
 {
