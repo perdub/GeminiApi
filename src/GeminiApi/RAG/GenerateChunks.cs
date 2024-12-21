@@ -32,6 +32,7 @@ namespace GeminiApi.RAG
             int position = 0;
             bool flag = true;
             int chunkPosition = 0;
+            Guid dockId = Guid.NewGuid();
             while(flag){
                 int start = position;
                 int end = Math.Min(text.Length, position+chunkSize);
@@ -44,6 +45,7 @@ namespace GeminiApi.RAG
                 chunk.ChunkPosition = chunkPosition;
                 chunk.WordsBag = new WordsBag(newChunkText);
                 chunk.ChunkSize = end - start;
+                chunk.DocumentId = dockId;
                 chunk.ChunkStartPosition = position;
                 chunks.Add(chunk);
 
