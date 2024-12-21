@@ -115,6 +115,24 @@ public class GeminiModel : DialogManager
 
         return await base.SendMessage(string.Empty);
     }
+    public Task<Response?> SendMessage(string message, bool invokeApi = true)
+    {
+        dialogContent.Add(
+            new Content
+            {
+                Role = "user",
+                Parts = new Part[]{
+                    new Part{
+                        Text = message
+                    }
+                }
+            }
+        );
+        if(!invokeApi)
+            return null;
+
+        return base.SendMessage(string.Empty);
+    }
     public override Task<Response> SendMessage(string message)
     {
         dialogContent.Add(
