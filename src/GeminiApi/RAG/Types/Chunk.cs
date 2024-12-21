@@ -4,6 +4,11 @@ namespace GeminiApi.RAG.Types{
 
         public Guid DocumentId {get;set;} = Guid.Empty;
 
+        /// <summary>
+        /// represent chunk position in document
+        /// </summary>
+        public int ChunkPosition {get;set;} = 0;
+
         public Vector? Embedding{get;set;} = null;
 
         public string? Text{get;set;} = string.Empty;

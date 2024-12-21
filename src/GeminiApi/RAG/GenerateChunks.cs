@@ -31,6 +31,7 @@ namespace GeminiApi.RAG
             List<Chunk> chunks = new List<Chunk>(text.Length / (chunkSize - chunkSameBorder * 2));
             int position = 0;
             bool flag = true;
+            int chunkPosition = 0;
             while(flag){
                 int start = position;
                 int end = Math.Min(text.Length, position+chunkSize);
@@ -40,12 +41,14 @@ namespace GeminiApi.RAG
                 string newChunkText = text.Substring(start, end-position);
                 Chunk chunk = new Chunk();
                 chunk.Text = newChunkText;
+                chunk.ChunkPosition = chunkPosition;
                 chunk.WordsBag = new WordsBag(newChunkText);
                 chunk.ChunkSize = end - start;
                 chunk.ChunkStartPosition = position;
                 chunks.Add(chunk);
 
                 position += (chunkSize - chunkSameBorder);
+                chunkPosition++;
             }
 
             return chunks.ToArray();
