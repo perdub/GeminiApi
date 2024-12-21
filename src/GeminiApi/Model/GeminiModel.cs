@@ -240,6 +240,22 @@ public class GeminiModel : DialogManager
         public GeminiApi.Types.File File { get; set; }
     }
 
+    public void ClearRag(string ragStartMessage = "Also, now you will get some data chunks with addition information, with you can use before responce generation."){
+        var messages = dialogContent
+            .Where(a=>a.Role == "user");
+
+        foreach(var mess in messages){
+            foreach(var part in mess.Parts){
+                if(!string.IsNullOrWhiteSpace(part.Text)){
+                    int p = part.Text.IndexOf(ragStartMessage);
+                    if(p != -1){
+                        part.Text = part.Text.Substring(0, p);
+                    }
+                }
+            }
+        }
+    }
+
     public void AddModelPhrase(string modelText)
     {
         if(string.IsNullOrWhiteSpace(modelText))
