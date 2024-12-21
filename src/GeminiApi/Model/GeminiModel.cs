@@ -128,7 +128,7 @@ public class GeminiModel : DialogManager
 
     private HttpRequestMessage factory()
     {
-        return new HttpRequestMessage(HttpMethod.Post, $"https://my-proxy-server-liard.vercel.app/api/proxy?key={apiKey}");
+        return new HttpRequestMessage(HttpMethod.Post, $"https://generativelanguage.googleapis.com/v1beta/models/{modelName}:generateContent?key={apiKey}");
     }
 
     public override async Task<Response> Talk()
