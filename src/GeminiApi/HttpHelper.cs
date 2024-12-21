@@ -11,9 +11,19 @@ namespace GeminiApi
             return httpContent;
         }
 
-        public async static Task<GenerateContentResponse?> UnpackReturn(this HttpResponseMessage httpResponseMessage){
+        public async static Task<GenerateContentResponse?> UnpackReturnAsync(this HttpResponseMessage httpResponseMessage){
             var str = await httpResponseMessage.Content.ReadAsStringAsync();
             var ob = str.Deserialize<GenerateContentResponse>();
+            return ob;
+        }
+        
+        public static GenerateContentResponse? UnpackReturn(this HttpResponseMessage httpResponseMessage){
+            var str = httpResponseMessage.Content;
+            string strig;
+            using(StreamReader sr = new StreamReader(str.ReadAsStream())){
+                strig = sr.ReadToEnd();
+            }
+            var ob = strig.Deserialize<GenerateContentResponse>();
             return ob;
         }
 

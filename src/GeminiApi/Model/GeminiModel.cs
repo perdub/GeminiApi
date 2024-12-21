@@ -83,10 +83,14 @@ public class GeminiModel : DialogManager
     {
         logger.LogDebug("Download image..");
         var imgArr = await download(image_url);
+        return await SendMessage(string.Empty, imgArr);
+    }
+    public async Task<Response?> SendMessage(string message, byte[] bytes, bool invokeApi = true)
+    {
         logger.LogDebug("Upload image to gemini api...");
-        var file = (await uploadToGemini(imgArr));
+        var file = (await uploadToGemini(bytes));
 
-        if(string.IsNullOrWhiteSpace(message) && !string.IsNullOrWhiteSpace(image_url))
+        if(string.IsNullOrWhiteSpace(message))
             message = "Look on this image.";
 
         dialogContent.Add(
@@ -106,6 +110,8 @@ public class GeminiModel : DialogManager
                 }
             }
         );
+        if(!invokeApi)
+            return null;
 
         return await base.SendMessage(string.Empty);
     }
@@ -173,7 +179,7 @@ public class GeminiModel : DialogManager
             return response;
         }
 
-        var llmResult = await resp.UnpackReturn();
+        var llmResult = resp.UnpackReturn();
 
         logger.LogDebug($"Result unpacked.");
         
@@ -270,6 +276,21 @@ public class GeminiModel : DialogManager
                 Text = modelText
             }
         );
+    }
+
+    /// <summary>
+    /// use when you want add message from model
+    /// </summary>
+    /// <param name="message"></param>
+    public void AddModelMessage(string message){
+        dialogContent.Add(new Content{
+            Role = "model",
+            Parts = new Part[]{
+                new Part{
+                    Text = message
+                }
+            }
+        });
     }
 
     private IEnumerable<Content> filterList(){
