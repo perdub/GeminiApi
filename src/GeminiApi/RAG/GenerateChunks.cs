@@ -1,3 +1,4 @@
+using System.Text;
 using GeminiApi.RAG.Types;
 
 namespace GeminiApi.RAG
@@ -27,6 +28,48 @@ namespace GeminiApi.RAG
             }
         }
 
+        public Chunk[] SplitTextToChunks(string text, int chunkSize = 2048){
+            var paragraphs = text.Split('\n');
+            var words = paragraphs.Select(a=>a.Split(' ', StringSplitOptions.TrimEntries));
+            List<Chunk> chunks = new List<Chunk>(text.Length / chunkSize);
+
+            Guid docId = Guid.NewGuid();
+
+            int chunkNum = 1;
+
+            int totalPos = 0;
+            StringBuilder bld = new StringBuilder();
+            foreach(var par in words){
+                foreach(var word in par){
+                    var w1 = word.Normalize();
+                    bld.Append(w1);
+                    bld.Append(' ');
+                    totalPos+=w1.Length+1;
+                }
+                if(bld.Length >= chunkSize){
+                    Chunk chunk = new Chunk();
+                    chunk.Text = bld.ToString();
+                    chunk.DocumentId = docId;
+                    chunk.ChunkSize = chunk.Text.Length;
+                    chunk.ChunkStartPosition = totalPos - chunk.ChunkSize;
+                    chunk.ChunkPosition = chunkNum;
+                    chunk.WordsBag = new WordsBag(chunk.Text);
+                    chunks.Add(chunk);
+                    bld.Clear();
+                    chunkNum++;
+                }
+            }
+
+            return chunks.ToArray();
+        }
+
+        /// <summary>
+        /// chunk sizes are constants, and words can be splited
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="chunkSize"></param>
+        /// <param name="chunkSameBorder"></param>
+        /// <returns></returns>
         public Chunk[] SplitTextToChunks(string text, int chunkSize = 512, int chunkSameBorder=32){
             List<Chunk> chunks = new List<Chunk>(text.Length / (chunkSize - chunkSameBorder * 2));
             int position = 0;
