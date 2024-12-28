@@ -19,6 +19,10 @@ jobs:
           with:
             dotnet-version: 9.x
 
+        - name: Tests
+          run: |
+            dotnet test --logger "console;verbosity=detailed"
+
         - name: Create
           run: |
             cd src/GeminiApi
