@@ -251,7 +251,7 @@ public class GeminiModel : DialogManager
             logger?.LogDebug($"File uploaded! {js}");
 
             if(waitForActiveStatus){
-                while(file.File.State != FileState.ACTIVE){
+                while(file.File.State == FileState.PROCESSING){
                     await Task.Delay(5000);
 
                     var httpMess = new HttpRequestMessage(HttpMethod.Get, $"https://generativelanguage.googleapis.com/upload/v1beta/files/{file.File.Name}?key={apiKey}");
