@@ -254,7 +254,7 @@ public class GeminiModel : DialogManager
                 while(file.File.State == FileState.PROCESSING){
                     await Task.Delay(5000);
 
-                    var httpMess = new HttpRequestMessage(HttpMethod.Get, $"https://generativelanguage.googleapis.com/upload/v1beta/files/{file.File.Name}?key={apiKey}");
+                    var httpMess = new HttpRequestMessage(HttpMethod.Get, $"https://generativelanguage.googleapis.com/upload/v1beta/{file.File.Name}?key={apiKey}");
                     var resp1 = await httpClient.SendAsync(httpMess);
                     js = await resp1.Content.ReadAsStringAsync();
                     file = System.Text.Json.JsonSerializer.Deserialize<ApiResp>(js);
