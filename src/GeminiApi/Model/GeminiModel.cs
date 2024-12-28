@@ -88,7 +88,7 @@ public class GeminiModel : DialogManager
     public async Task<Response?> SendMessage(string message, byte[] bytes, bool invokeApi = true)
     {
         logger.LogDebug("Upload image to gemini api...");
-        var file = (await uploadToGemini(bytes));
+        var file = (await uploadToGemini(bytes, true));
 
         if(string.IsNullOrWhiteSpace(message))
             message = "Look on this image.";
@@ -227,7 +227,7 @@ public class GeminiModel : DialogManager
         return await httpClient.GetByteArrayAsync(url);
     }
 
-    private async Task<GeminiApi.Types.File?> uploadToGemini(byte[] array)
+    private async Task<GeminiApi.Types.File?> uploadToGemini(byte[] array, bool waitForActiveStatus = false)
     {
         try
         {
@@ -249,6 +249,18 @@ public class GeminiModel : DialogManager
             var js = await resp.Content.ReadAsStringAsync();
             var file = System.Text.Json.JsonSerializer.Deserialize<ApiResp>(js);
             logger?.LogDebug($"File uploaded! {js}");
+
+            if(waitForActiveStatus){
+                while(file.File.State != FileState.ACTIVE){
+                    await Task.Delay(5000);
+
+                    var httpMess = new HttpRequestMessage(HttpMethod.Get, $"https://generativelanguage.googleapis.com/upload/v1beta/files/{file.File.Name}?key={apiKey}");
+                    var resp1 = await httpClient.SendAsync(httpMess);
+                    js = await resp1.Content.ReadAsStringAsync();
+                    file = System.Text.Json.JsonSerializer.Deserialize<ApiResp>(js);
+                }
+            }
+
             return file.File;
         }
         catch (Exception r)
