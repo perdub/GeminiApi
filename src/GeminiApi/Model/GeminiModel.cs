@@ -13,7 +13,7 @@ namespace GeminiApi;
 public class GeminiModel : DialogManager
 {
     private string apiKey = string.Empty;
-    private double temperature = 0.8d;
+    public double Temperature {get;set;} = 0.8d;
     private string modelName;
 
     private static readonly SafetySetting[] safetySettings =  new SafetySetting[]{
@@ -59,12 +59,12 @@ public class GeminiModel : DialogManager
     {
         payload = PayloadBuilder.BuildEmpty();
         this.apiKey = apiKey;
-        this.temperature = temperature;
         this.modelName = geminiModel;
+        this.Temperature = temperature;
 
         generationConfig = genConf ?? new GenerationConfig
         {
-            Temperature = temperature,
+            Temperature = this.Temperature,
             TopK = 40,
             TopP = 0.99
         };
@@ -77,6 +77,9 @@ public class GeminiModel : DialogManager
                 }
             }
         };
+    }
+    public void EditTemperatureInRun(double newTemp){
+        generationConfig.Temperature = newTemp;
     }
     public override bool IsReady => !string.IsNullOrEmpty(apiKey);
     public async Task<Response> SendMessage(string message, string image_url)
