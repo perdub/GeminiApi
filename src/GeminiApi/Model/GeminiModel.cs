@@ -1,5 +1,6 @@
 
 using System.Buffers;
+using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -200,7 +201,9 @@ public class GeminiModel : DialogManager
             return response;
         }
 
-        var llmResult = resp.UnpackReturn();
+        var stringOut = await resp.Content.ReadAsStringAsync();
+        Debug.Print(stringOut);
+        var llmResult = System.Text.Json.JsonSerializer.Deserialize<GenerateContentResponse>(stringOut);
 
         logger.LogDebug($"Result unpacked.");
         
