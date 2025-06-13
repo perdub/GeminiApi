@@ -8,7 +8,7 @@ namespace GeminiApi.Types
     public class PromptFeedback
     {
         [JsonPropertyName("blockReason")]
-        public BlockReason BlockReason { get; set; } = Types.BlockReason.Other;
+        public BlockReason BlockReason { get; set; } = Types.BlockReason.None;
 
         [JsonPropertyName("safetyRatings")]
         public List<SafetyRating>? SafetyRatings { get; set; } = null;
@@ -17,18 +17,21 @@ namespace GeminiApi.Types
     public enum BlockReason
     {
         [JsonPropertyName("BLOCK_REASON_UNSPECIFIED")]
-        BlockReasonUnspecified,
+        BLOCK_REASON_UNSPECIFIED,
 
         [JsonPropertyName("SAFETY")]
-        Safety,
+        SAFETY,
 
         [JsonPropertyName("OTHER")]
-        Other,
+        OTHER,
 
         [JsonPropertyName("BLOCKLIST")]
-        Blocklist,
+        BLOCKLIST,
 
         [JsonPropertyName("PROHIBITED_CONTENT")]
-        ProhibitedContent
+
+        PROHIBITED_CONTENT,
+        
+        None
     }
 }
