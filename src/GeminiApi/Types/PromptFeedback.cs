@@ -13,7 +13,7 @@ namespace GeminiApi.Types
         [JsonPropertyName("safetyRatings")]
         public List<SafetyRating>? SafetyRatings { get; set; } = null;
     }
-
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum BlockReason
     {
         [JsonPropertyName("BLOCK_REASON_UNSPECIFIED")]
