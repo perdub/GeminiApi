@@ -206,7 +206,12 @@ public class GeminiModel : DialogManager
         GenerateContentResponse llmResult;
         try
         {
-            llmResult = System.Text.Json.JsonSerializer.Deserialize<GenerateContentResponse>(stringOut);
+            llmResult = System.Text.Json.JsonSerializer.Deserialize<GenerateContentResponse>(stringOut, new JsonSerializerOptions
+            {
+                Converters = new[] {
+                    new JsonStringEnumConverter()
+                }
+            });
 
         }
         catch (System.Text.Json.JsonException exception)
