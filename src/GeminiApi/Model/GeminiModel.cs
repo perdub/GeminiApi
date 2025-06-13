@@ -224,6 +224,13 @@ public class GeminiModel : DialogManager
             return response;
         }
 
+        if (llmResult.PromptFeedback.BlockReason != BlockReason.None)
+        {
+            //our prompt waw blocked
+            response.Status = ResultType.InputLimit;
+            return response;
+        }
+
         logger.LogDebug($"Result unpacked.");
         
         logger.LogDebug(llmResult.Serialize());
