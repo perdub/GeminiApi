@@ -203,7 +203,19 @@ public class GeminiModel : DialogManager
 
         var stringOut = await resp.Content.ReadAsStringAsync();
         Debug.Print(stringOut);
-        var llmResult = System.Text.Json.JsonSerializer.Deserialize<GenerateContentResponse>(stringOut);
+        GenerateContentResponse llmResult;
+        try
+        {
+            llmResult = System.Text.Json.JsonSerializer.Deserialize<GenerateContentResponse>(stringOut);
+
+        }
+        catch (System.Text.Json.JsonException)
+        {
+            logger.LogError("Error: fall to parce json message: {0}", stringOut);
+            //this dosent make any sence but this is error type when we fall to parce json. I know that i need to rewrite all this shit but i am too lazy.
+            response.Status = ResultType.InputLimit;
+            return response;
+        }
 
         logger.LogDebug($"Result unpacked.");
         

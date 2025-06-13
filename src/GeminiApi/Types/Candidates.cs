@@ -11,7 +11,7 @@ namespace GeminiApi.Types
         public Content? Content { get; set; } = null; // Assuming you have a Content class
 
         [JsonPropertyName("finishReason")]
-        public FinishReason? FinishReason { get; set; } = null;
+        public FinishReason FinishReason { get; set; } = FinishReason.Stop;
 
         [JsonPropertyName("safetyRatings")]
         public List<SafetyRating>? SafetyRatings { get; set; } = null;
@@ -46,7 +46,7 @@ namespace GeminiApi.Types
 
         Stop,
 
-        MaxTokens,
+        MAX_TOKENS,
 
         Safety,
 
