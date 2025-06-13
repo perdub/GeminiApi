@@ -8,7 +8,7 @@ namespace GeminiApi.Types
     public class PromptFeedback
     {
         [JsonPropertyName("blockReason")]
-        public BlockReason? BlockReason { get; set; } = null;
+        public BlockReason BlockReason { get; set; } = Types.BlockReason.Other;
 
         [JsonPropertyName("safetyRatings")]
         public List<SafetyRating>? SafetyRatings { get; set; } = null;
