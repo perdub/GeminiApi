@@ -5,16 +5,15 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using DdgAiProxy;
 using GeminiApi.Types;
 using Microsoft.Extensions.Logging;
 
 namespace GeminiApi;
 
-public class GeminiModel : DialogManager
+public class GeminiModel
 {
     private string apiKey = string.Empty;
-    public double Temperature {get;set;} = 0.8d;
+    public double Temperature {get;set;} = 1.0d;
     private string modelName;
 
     private static readonly SafetySetting[] safetySettings =  new SafetySetting[]{
@@ -50,7 +49,7 @@ public class GeminiModel : DialogManager
 
     public bool DontAutoSaveOutput { get; set; } = false;
 
-    public GeminiModel(HttpClient customClient, ILogger<GeminiModel> logger) : base(null)
+    public GeminiModel(HttpClient customClient, ILogger<GeminiModel> logger)
     {
         this.logger = logger;
         this.httpClient = customClient;
@@ -58,7 +57,6 @@ public class GeminiModel : DialogManager
     }
     public async Task Init(string apiKey, string systemPrompt, string geminiModel = "gemini-1.5-flash", double temperature = 1.18d, GenerationConfig? genConf = null)
     {
-        payload = PayloadBuilder.BuildEmpty();
         this.apiKey = apiKey;
         this.modelName = geminiModel;
         this.Temperature = temperature;
@@ -82,7 +80,7 @@ public class GeminiModel : DialogManager
     public void EditTemperatureInRun(double newTemp){
         generationConfig.Temperature = newTemp;
     }
-    public override bool IsReady => !string.IsNullOrEmpty(apiKey);
+    public bool IsReady => !string.IsNullOrEmpty(apiKey);
     public async Task<Response> SendMessage(string message, string image_url)
     {
         logger.LogDebug("Download image..");
@@ -117,7 +115,7 @@ public class GeminiModel : DialogManager
         if(!invokeApi)
             return null;
 
-        return await base.SendMessage(string.Empty);
+        return await SendMessage(string.Empty);
     }
     public Task<Response?> SendMessage(string message, bool invokeApi = true)
     {
@@ -135,9 +133,9 @@ public class GeminiModel : DialogManager
         if(!invokeApi)
             return null;
 
-        return base.SendMessage(string.Empty);
+        return SendMessage(string.Empty);
     }
-    public override Task<Response> SendMessage(string message)
+    public async Task<Response> SendMessage(string message)
     {
         dialogContent.Add(
             new Content
@@ -151,7 +149,7 @@ public class GeminiModel : DialogManager
             }
         );
 
-        return base.SendMessage(string.Empty);
+        return await Talk();
     }
 
     private HttpRequestMessage factory()
@@ -159,7 +157,7 @@ public class GeminiModel : DialogManager
         return new HttpRequestMessage(HttpMethod.Post, $"https://generativelanguage.googleapis.com/v1beta/models/{modelName}:generateContent?key={apiKey}");
     }
 
-    public override async Task<Response> Talk()
+    public async Task<Response> Talk()
     {
 
         if (!IsReady)
@@ -188,16 +186,17 @@ public class GeminiModel : DialogManager
 
         Response response = new Response();
         response.ModelInfo = modelName;
-        response.ResponseTime = DateTime.Now;
+        response.ResponceTime = DateTime.Now;
 
         logger.LogDebug($"HTTP Result: {resp.StatusCode}");
 
         if (resp.StatusCode != System.Net.HttpStatusCode.OK)
         {
-            response.Status = ResultType.UpstreamError;
             var err = await resp.Content.ReadAsStringAsync();
-            response.TextResponse = ($"Gemini api return {resp.StatusCode}, body: {err}");
             logger.LogError(response.TextResponse);
+            response.IsSussesful = false;
+            response.Result = ResultType.InternalError;
+            response.ErrorInfo = err;
             return response;
         }
 
@@ -220,14 +219,16 @@ public class GeminiModel : DialogManager
         {
             logger.LogError("Error: fall to parce json message: {0}", stringOut);
             //this dosent make any sence but this is error type when we fall to parce json. I know that i need to rewrite all this shit but i am too lazy.
-            response.Status = ResultType.InputLimit;
+            response.ErrorInfo = stringOut;
+            response.IsSussesful = false;
+            response.Result = ResultType.FallToDeserialize;
             return response;
         }
 
-        if (llmResult?.PromptFeedback?.BlockReason != BlockReason.None)
+        if (llmResult != null && llmResult.PromptFeedback != null && llmResult?.PromptFeedback?.BlockReason != BlockReason.None)
         {
             //our prompt waw blocked
-            response.Status = ResultType.InputLimit;
+            response.Result = ResultType.PromptBlocked;
             return response;
         }
 
@@ -249,8 +250,6 @@ public class GeminiModel : DialogManager
         response.TextResponse = stringResult;
 
         logger.LogDebug($"Sussesful end.");
-
-        response.Status = ResultType.Ok;
         return response;
     }
 
@@ -355,7 +354,13 @@ public class GeminiModel : DialogManager
         });
     }
 
-    private IEnumerable<Content> filterList(){
+    public void AddMessages(params Content[] contents)
+    {
+        dialogContent.AddRange(contents);
+    }
+
+    private IEnumerable<Content> filterList()
+    {
         return dialogContent
             .Select(filterSelector)
             .Where(a => a != null);
