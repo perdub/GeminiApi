@@ -120,7 +120,7 @@ public class GeminiModel
 
         return await SendMessage(string.Empty);
     }
-    public Task<Response?> SendMessage(string message, bool invokeApi = true)
+    public async Task<Response?> SendMessage(string message, bool invokeApi = true)
     {
         dialogContent.Add(
             new Content
