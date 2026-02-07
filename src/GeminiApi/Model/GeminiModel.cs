@@ -40,7 +40,7 @@ public class GeminiModel
         };
 
     private List<Content> dialogContent;
-    private Content systemInstruction;
+    private Content systemInstruction = null;
     private GenerationConfig generationConfig;
 
     private ILogger<GeminiModel> logger;
@@ -67,15 +67,18 @@ public class GeminiModel
             TopK = 40,
             TopP = 0.99
         };
-        systemInstruction = new Content
-        {
-            Role = "user",
-            Parts = new Part[]{
-                new Part{
-                    Text = systemPrompt
+
+        if(!string.IsNullOrWhiteSpace(systemPrompt)){
+            systemInstruction = new Content
+            {
+                Role = "user",
+                Parts = new Part[]{
+                    new Part{
+                        Text = systemPrompt
+                    }
                 }
-            }
-        };
+            };
+        }
     }
     public void EditTemperatureInRun(double newTemp){
         generationConfig.Temperature = newTemp;
