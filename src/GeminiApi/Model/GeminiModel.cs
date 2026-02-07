@@ -136,7 +136,7 @@ public class GeminiModel
         if(!invokeApi)
             return null;
 
-        return SendMessage(string.Empty);
+        return await SendMessage(string.Empty);
     }
     public async Task<Response> SendMessage(string message)
     {
